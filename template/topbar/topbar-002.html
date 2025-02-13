@@ -98,10 +98,50 @@
 			.has-dropdown > a::after { content: "\25BC"; font-size: 0.7em; margin-left: 6px; transition: transform 0.3s ease; }
 			.has-dropdown.active > a::after { transform: rotate(180deg); }
 			
+			/* First-level dropdown */
+			.dropdown {
+				display: none; flex-direction: column; background: #444;
+				position: absolute; top: 60px; left: 0; min-width: 150px; z-index: 1000;
+			}
 			/* Nested dropdown */
 			.dropdown-child {
 				display: none; flex-direction: column; background: #555;
 				position: absolute; left: 100%; top: 0; min-width: 150px; z-index: 1000;
+			}
+			/* Desktop hover */
+			@media (min-width: 769px) {
+				.has-dropdown:hover > .dropdown { display: flex; }
+				.has-child:hover > .dropdown-child { display: flex; }
+			}
+			/* Active states */
+			li.active > .dropdown,
+			.has-child.active > .dropdown-child { display: flex; }
+			
+			
+			
+			/* Indicate dropdown items with a caret symbol */
+			.has-dropdown > a::after {
+				content: "\25BC";
+				font-size: 0.7em;
+				margin-left: 6px;
+				transition: transform 0.3s ease;
+			}
+			/* Rotate the caret when dropdown is active */
+			.has-dropdown.active > a::after {
+				transform: rotate(180deg);
+			}
+			/* Styles for mobile menu toggle (burger icon); hidden on desktop */
+			.mob-menu-toggle {
+				display: none;
+				flex-direction: column;
+				cursor: pointer;
+			}
+			.mob-menu-toggle span {
+				height: 3px;
+				width: 25px;
+				background-color: #fff;
+				margin: 4px 0;
+				transition: background-color 0.3s ease;
 			}
 			/* Dropdown styling for desktop: hidden by default */
 			.dropdown {
@@ -114,11 +154,9 @@
 				min-width: 150px;
 				z-index: 1000;
 			}
-			
 			/* Dropdown items padding */
 			.dropdown li a {
 				padding: 10px 20px;
-				white-space: nowrap;
 			}
 			/* Show dropdown on hover for desktop */
 			@media (min-width: 769px) {
@@ -156,43 +194,6 @@
 					background: #444;
 				}
 			}
-			
-			/* Desktop hover */
-			@media (min-width: 769px) {
-				.has-dropdown:hover > .dropdown { display: flex; }
-				.has-child:hover > .dropdown-child { display: flex; }
-			}
-			/* Active states */
-			li.active > .dropdown,
-			.has-child.active > .dropdown-child { display: flex; }
-			
-			
-			
-			/* Indicate dropdown items with a caret symbol */
-			.has-dropdown > a::after {
-				content: "\25BC";
-				font-size: 0.7em;
-				margin-left: 6px;
-				transition: transform 0.3s ease;
-			}
-			/* Rotate the caret when dropdown is active */
-			.has-dropdown.active > a::after {
-				transform: rotate(180deg);
-			}
-			/* Styles for mobile menu toggle (burger icon); hidden on desktop */
-			.mob-menu-toggle {
-				display: none;
-				flex-direction: column;
-				cursor: pointer;
-			}
-			.mob-menu-toggle span {
-				height: 3px;
-				width: 25px;
-				background-color: #fff;
-				margin: 4px 0;
-				transition: background-color 0.3s ease;
-			}
-			
 		</style>
 		
 		<style>
@@ -237,15 +238,6 @@
 				<ul class="nav-links">
 					<li><a href="#" class="nav_title">Home</a></li>
 					<li class="has-dropdown">
-						<a href="#" class="nav_title">Services</a>
-						<ul class="dropdown">
-							<li><a href="#" class="nav_title_dd">Design</a></li>
-							<li><a href="#" class="nav_title_dd">Development</a></li>
-							<li><a href="#" class="nav_title_dd">Marketing</a></li>
-						</ul>
-					</li>
-					<li><a href="#" class="nav_title">Contact</a></li>
-					<li class="has-dropdown">
 						<a href="#">UI Components</a>
 						<ul class="dropdown">
 							<li class="has-child">
@@ -258,7 +250,7 @@
 							<li class="has-child">
 								<a href="#">Sidebar</a>
 								<ul class="dropdown-child">
-									<li><a href="#">Sidebar001 Sidebar001</a></li>
+									<li><a href="#">Sidebar001</a></li>
 									<li><a href="#">Sidebar002</a></li>
 									<li><a href="#">Sidebar003</a></li>
 								</ul>
@@ -266,26 +258,14 @@
 						</ul>
 					</li>
 					<li class="has-dropdown">
-						<a href="#">Email</a>
+						<a href="#" class="nav_title">Services</a>
 						<ul class="dropdown">
-							<li class="has-child">
-								<a href="#">Sales Invoice</a>
-								<ul class="dropdown-child">
-									<li><a href="#" target="_blank">Sales Invoice 001</a></li>
-									<li><a href="#" target="_blank">Sales Invoice 002</a></li>
-									<li><a href="#" target="_blank">Sales Invoice 003</a></li>
-								</ul>
-							</li>
-							<li class="has-child">
-								<a href="#">Purchase Order</a>
-								<ul class="dropdown-child">
-									<li><a href="#">Purchase Order 001</a></li>
-									<li><a href="#">Purchase Order 002</a></li>
-									<li><a href="#">Purchase Order 003</a></li>
-								</ul>
-							</li>
+							<li><a href="#" class="nav_title_dd">Design</a></li>
+							<li><a href="#" class="nav_title_dd">Development</a></li>
+							<li><a href="#" class="nav_title_dd">Marketing</a></li>
 						</ul>
 					</li>
+					<li><a href="#" class="nav_title">Contact</a></li>
 				</ul>
 			</nav>
 			<!-- Mobile menu toggle (burger icon) -->
@@ -361,64 +341,8 @@
 				lastScroll = currentScroll <= 0 ? 0 : currentScroll;
 			});
 		</script>
-		<script>
-			// Enhanced function to auto-adjust dropdown position for potential overflow.
-			function handleDropdownPosition(dropdown, defLeft, defRight, flipLeft, flipRight) {
-				// Apply default positioning
-				dropdown.style.left = defLeft;
-				dropdown.style.right = defRight;
-				
-				// Get the dropdown’s dimensions
-				var rect = dropdown.getBoundingClientRect();
-				var rect_right = rect.right + 10;
-				var rect_left = rect.left + 10;
-				
-				// If dropdown overflows to the right, flip its side.
-				if (rect_right > window.innerWidth) {
-					dropdown.style.left = flipLeft;
-					dropdown.style.right = flipRight;
-				}
-				// (Optional) You could also check if it overflows to the left and adjust accordingly.
-				else if (rect_left < 0) {
-					dropdown.style.left = '0';
-					dropdown.style.right = 'auto';
-				}
-			}
-			
-			function setupDropdownAdjustments() {
-				// Only activate on desktop mode.
-				if (window.innerWidth < 769) return;
-				
-				// Adjust first-level dropdowns.
-				document.querySelectorAll('.has-dropdown').forEach(function(item) {
-					var dropdown = item.querySelector('.dropdown');
-					if (dropdown) {
-						item.addEventListener('mouseenter', function() {
-							// Default: align dropdown to left of list item; if overflowing, align right.
-							handleDropdownPosition(dropdown, '0', 'auto', 'auto', '0');
-						});
-					}
-				});
-				
-				// Adjust nested dropdowns (e.g., Topbar > Topbar001).
-				document.querySelectorAll('.has-child').forEach(function(item) {
-					var dropdownChild = item.querySelector('.dropdown-child');
-					if (dropdownChild) {
-						item.addEventListener('mouseenter', function() {
-							// Default: nested menus open to the right; if overflowing, flip to left.
-							handleDropdownPosition(dropdownChild, '100%', 'auto', 'auto', '100%');
-						});
-					}
-				});
-			}
-			
-			window.addEventListener('load', setupDropdownAdjustments);
-			window.addEventListener('resize', setupDropdownAdjustments);
-		</script>
 		<!-- Topbar001-003 [end  ] -->
 	</body>
 </html>
 
 
-requirement
-i want to apply transition: all 5s ease; to dropdown list, when hover the element i want have animation , but cannot , why ? please fix
