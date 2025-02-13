@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Responsive Topbar Header with Enhanced Dropdown</title>
+		<style>
+			/* Reset body margin, set font-family and background color */
+			body {
+				margin: 0;
+				font-family: Arial, sans-serif;
+				background: #f4f4f4;
+			}
+		</style>
+		
+		<!-- Topbar001-001 [start] -->
+		<style>
+			:root {
+				--header-height: 60px;
+				
+				--background-color-001: #333;
+				
+				--fs-title-001: 20px;
+				--fw-title-001: 600;
+				--fc-title-001: white;
+				
+				--fs-title-002: 16px;
+				--fw-title-002: 300;
+				--fc-title-002: white;
+				
+				--fs-title-003: 14px;
+				--fw-title-003: 300;
+				--fc-title-003: white;
+			}
+			
+			
+			/* Class to prevent scrolling when mobile nav is active */
+			body.noscroll {
+				overflow: hidden;
+			}
+			/* Header styles: sticky topbar with flex layout */
+			header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				background: var(--background-color-001);
+				color: #fff;
+				padding: 0 20px;
+				height: var(--header-height);
+				position: sticky;
+				top: 0;
+				box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+				transition: top 0.3s ease;
+				z-index: 1000;
+			}
+			/* Logo style */
+			.logo {
+				font-size: var(--fs-title-001);
+				font-weight: var(--fw-title-001);
+				color: var(--fc-title-001);
+			}
+			/* Base nav unordered list styles */
+			nav ul {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+				display: flex;
+			}
+			/* Position nav list items relatively to attach dropdowns */
+			nav li {
+				position: relative;
+			}
+			/* Nav link styles with padding and transition */
+			nav a {
+				color: #fff;
+				text-decoration: none;
+				padding: 20px;
+				display: block;
+				transition: background-color 0.3s ease;
+			}
+			/* Hover effect for nav links */
+			nav a:hover {
+				background-color: #555;
+			}
+			
+			.nav_title{
+				font-size: var(--fs-title-002);
+				font-weight: var(--fw-title-002);
+				color: var(--fc-title-002);
+			}
+			.nav_title_dd{
+				font-size: var(--fs-title-003);
+				font-weight: var(--fw-title-003);
+				color: var(--fc-title-003);
+			}
+			
+			/* Indicate dropdown items with a caret symbol */
+			.has-dropdown > a::after {
+				content: "\25BC";
+				font-size: 0.7em;
+				margin-left: 6px;
+				transition: transform 0.3s ease;
+			}
+			/* Rotate the caret when dropdown is active */
+			.has-dropdown.active > a::after {
+				transform: rotate(180deg);
+			}
+			/* Styles for mobile menu toggle (burger icon); hidden on desktop */
+			.mob-menu-toggle {
+				display: none;
+				flex-direction: column;
+				cursor: pointer;
+			}
+			.mob-menu-toggle span {
+				height: 3px;
+				width: 25px;
+				background-color: #fff;
+				margin: 4px 0;
+				transition: background-color 0.3s ease;
+			}
+			/* Dropdown styling for desktop: hidden by default */
+			.dropdown {
+				display: none;
+				flex-direction: column;
+				background: #444;
+				position: absolute;
+				top: var(--header-height);
+				left: 0;
+				min-width: 150px;
+				z-index: 1000;
+			}
+			/* Dropdown items padding */
+			.dropdown li a {
+				padding: 10px 20px;
+			}
+			/* Show dropdown on hover for desktop */
+			@media (min-width: 769px) {
+				.has-dropdown:hover > .dropdown {
+					display: flex;
+				}
+			}
+			/* Also support click toggle: if li has active class, show its dropdown */
+			li.active > .dropdown {
+				display: flex;
+			}
+			/* Mobile Styles */
+			@media (max-width: 768px) {
+				/* Transform nav ul to vertical list and hide by default */
+				nav ul {
+					flex-direction: column;
+					width: 100%;
+					background: var(--background-color-001);
+					/* Change to fixed positioning to cover full screen */
+					position: fixed;
+					top: var(--header-height);
+					left: 0;
+					height: 100%;
+					display: none;
+					z-index: 1001; /* Above header and main content */
+				}
+				/* When active, display the mobile menu */
+				nav ul.active {
+					display: block;
+				}
+				
+				/* Dropdown menus follow document flow on mobile */
+				.dropdown {
+					position: static;
+					background: #444;
+				}
+			}
+		</style>
+		
+		<style>
+			/* Show mobile mob-menu-toggle (burger icon) */
+			.mob-menu-toggle {
+				display: flex;
+			}
+			.mob-menu-toggle {
+				flex-direction: column;
+				cursor: pointer;
+			}
+			.mob-menu-toggle span {
+				height: 3px;
+				width: 25px;
+				background-color: #fff;
+				margin: 4px 0;
+				transition: transform 0.3s ease, opacity 0.3s ease;
+				transform-origin: center;
+			}
+			.mob-menu-toggle.active span:nth-child(1) {
+				transform: translateY(12px) rotate(45deg);
+			}
+			.mob-menu-toggle.active span:nth-child(2) {
+				opacity: 0;
+			}
+			.mob-menu-toggle.active span:nth-child(3) {
+				transform: translateY(-10px) rotate(-45deg);
+			}
+		</style>
+		<!-- Topbar001-001 [end  ] -->
+	</head>
+	<body>
+		<!-- Topbar001-002 [start] -->
+		<!-- Header section with logo, navigation and mobile menu toggle -->
+		<header class="mheader">
+			<div class="logo">SampleName</div>
+			<nav>
+				<ul class="nav-links">
+					<!-- Navigation item: Home -->
+					<li><a href="#" class="nav_title">Home</a></li>
+					<!-- Navigation item with dropdown: About -->
+					<li class="has-dropdown">
+						<a href="#" class="nav_title">About</a>
+						<ul class="dropdown">
+							<li><a href="#" class="nav_title_dd">Team</a></li>
+							<li><a href="#" class="nav_title_dd">History</a></li>
+						</ul>
+					</li>
+					<!-- Navigation item with dropdown: Services -->
+					<li class="has-dropdown">
+						<a href="#" class="nav_title">Services</a>
+						<ul class="dropdown">
+							<li><a href="#" class="nav_title_dd">Design</a></li>
+							<li><a href="#" class="nav_title_dd">Development</a></li>
+							<li><a href="#" class="nav_title_dd">Marketing</a></li>
+						</ul>
+					</li>
+					<!-- Navigation item: Contact -->
+					<li><a href="#" class="nav_title">Contact</a></li>
+				</ul>
+			</nav>
+			<!-- Mobile menu toggle (burger icon) -->
+			<div class="mob-menu-toggle">
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+		</header>
+		<!-- Topbar001-002 [end  ] -->
+		
+		<!-- Main content -->
+		
+		<!-- SampleDate [start] -->
+		<div class="sample_test">Sample test</div>
+		<script>
+			// Generate sample content dynamically for testing scrolling
+			var temp_element = document.querySelector(".sample_test");
+			var temp_inner_html = "";
+			for(var i = 0; i <= 2000; i++){
+				temp_inner_html += "<div>sample</div>";
+			}
+			temp_element.innerHTML = temp_inner_html;
+		</script>
+		<!-- SampleDate [end  ] -->
+		
+		<!-- Topbar001-003 [start] -->
+		<script>
+			// Toggle mobile main menu visibility and disable main content scrolling.
+			document.querySelector('.mob-menu-toggle').addEventListener('click', function () {
+				// Select the navigation list
+				var nav = document.querySelector('.nav-links');
+				// Toggle 'active' class to display or hide the mobile nav overlay
+				nav.classList.toggle('active');
+				// Toggle 'noscroll' class on body to disable background scrolling when menu is open
+				document.body.classList.toggle('noscroll');
+				// After click toggle become X
+				this.classList.toggle('active');
+			});
+			
+			// Toggle dropdown menus on mobile when a dropdown link is clicked
+			document.querySelectorAll('.has-dropdown > a').forEach(function (link) {
+				link.addEventListener('click', function (e) {
+					e.preventDefault();
+					// Toggle active class on parent li to show/hide its dropdown items
+					this.parentElement.classList.toggle('active');
+				});
+			});
+			
+			// Hide header on scroll down and show header on scroll up for better content focus
+			let lastScroll = window.pageYOffset;
+			var header = document.querySelector('.mheader');
+			var header_height = header.offsetHeight;
+			
+			window.addEventListener('scroll', function() {
+				let currentScroll = window.pageYOffset;
+				if (currentScroll > lastScroll) {
+					// Scrolling down: hide header by sliding it up
+					header.style.top = (header_height * -1) + "px";
+				} else {
+					// Scrolling up: reveal header by sliding it down
+					header.style.top = "0";
+				}
+				// Prevent negative scroll values
+				lastScroll = currentScroll <= 0 ? 0 : currentScroll;
+			});
+		</script>
+		<!-- Topbar001-003 [end  ] -->
+	</body>
+</html>
