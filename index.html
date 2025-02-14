@@ -109,7 +109,7 @@
 				flex-direction: column;
 				background: #444;
 				position: absolute;
-				top: calc(var(--header-height) - 1px);
+				top: calc(var(--header-height) - 2px);
 				left: 0;
 				min-width: 150px;
 				z-index: 1000;
@@ -286,6 +286,21 @@
 							</li>
 						</ul>
 					</li>
+					<li class="has-dropdown">
+						<a href="#" class="nav_title">Tools</a>
+						<ul class="dropdown">
+							<li><a href="./tools/html_to_email_converter.html" target="_blank" class="nav_title_dd">HTML to Email Converter</a></li>
+							<li><a href="./tools/email_to_html_converter.html" target="_blank" class="nav_title_dd">Email to HTML Converter</a></li>
+							<li class="has-child">
+								<a href="#">Sales Invoice</a>
+								<ul class="dropdown-child">
+									<li><a href="#" target="_blank">Sales Invoice 001</a></li>
+									<li><a href="#" target="_blank">Sales Invoice 002</a></li>
+									<li><a href="#" target="_blank">Sales Invoice 003</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
 				</ul>
 			</nav>
 			<!-- Mobile menu toggle (burger icon) -->
@@ -420,5 +435,6 @@
 </html>
 
 
-requirement
-i want to apply transition: all 5s ease; to dropdown list, when hover the element i want have animation , but cannot , why ? please fix
+requirement :
+1. dropdown, i hover "Topbar", i need to let user know this is a dropbox, help me do exhancement, css html javascript, by using logic of user expericence enhancement.
+2. i think can do something like indicator ? like + - ?

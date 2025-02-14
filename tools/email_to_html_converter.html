@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Email Signature to HTML Converter</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				background-color: #f2f2f2;
+				margin: 0;
+				padding: 20px;
+			}
+			.container {
+				max-width: 860px;
+				margin: 20px auto;
+				background-color: #fff;
+				padding: 20px;
+				border-radius: 8px;
+				box-sizing: border-box;
+			}
+			h1 {
+				text-align: center;
+				color: #333;
+				margin-bottom: 20px;
+			}
+			h3 {
+				color: #555;
+				margin-top: 20px;
+			}
+			#signatureArea {
+				min-height: 150px;
+				border: 1px solid #ddd;
+				padding: 10px;
+				border-radius: 5px;
+				background-color: #fafafa;
+			}
+			.buttons {
+				text-align: center;
+				margin-top: 10px;
+			}
+			button {
+				padding: 10px 20px;
+				margin: 5px;
+				font-size: 16px;
+				border: none;
+				border-radius: 5px;
+				cursor: pointer;
+				color: #fff;
+				transition: background-color 0.3s ease;
+			}
+			#copyButton {
+				background-color: #28a745;
+				/* Initially hidden if signatureArea is empty */
+				display: none;
+			}
+			#copyButton:hover {
+				background-color: #218838;
+			}
+			pre {
+				background-color: #fafafa;
+				border: 1px solid #ddd;
+				padding: 10px;
+				overflow-x: auto;
+				white-space: pre-wrap;
+				word-break: break-all;
+				font-size: 14px;
+				color: #333;
+				/* Initially hidden if signatureArea is empty */
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1>Email Signature to HTML Converter</h1>
+			<h3>Design or Paste Your Email Signature Below:</h3>
+			<div id="signatureArea" contenteditable="true" title="Your email signature goes here."></div>
+			<div class="buttons">
+				<button id="copyButton">Copy HTML Code</button>
+			</div>
+			<div class="div_outputHtml" style="display:none;">
+				<h3>Generated HTML Code:</h3>
+				<pre id="outputHtml"></pre>
+			</div>
+		</div>
+		<script>
+			function updateVisibility() {
+				const signatureArea = document.getElementById("signatureArea");
+				const outputHtml = document.getElementById("outputHtml");
+				const copyButton = document.getElementById("copyButton");
+				// Check if the signature area is empty (ignoring whitespace)
+				if (signatureArea.textContent.trim() === "") {
+					outputHtml.style.display = "none";
+					copyButton.style.display = "none";
+				}
+			}
+			
+			function convertSignatureToHtml() {
+				const signatureArea = document.getElementById('signatureArea');
+				const htmlCode = signatureArea.innerHTML;
+				const outputHtml = document.getElementById('outputHtml');
+				const divOutputHtml = document.querySelector('.div_outputHtml');
+				const copyButton = document.getElementById('copyButton');
+				
+				if (signatureArea.textContent.trim() === "") {
+					// When signatureArea is empty, hide output and copy button.
+					outputHtml.style.display = "none";
+					divOutputHtml.style.display = "none";
+					copyButton.style.display = "none";
+					outputHtml.textContent = "";
+				} else {
+					outputHtml.textContent = htmlCode;
+					outputHtml.style.display = "block";
+					divOutputHtml.style.display = "block";
+					copyButton.style.display = "inline-block";
+				}
+			}
+			
+			// Auto convert when input changes
+			document.getElementById('signatureArea').addEventListener('input', function() {
+				convertSignatureToHtml();
+			});
+			
+			document.getElementById('copyButton').addEventListener('click', () => {
+				const output = document.getElementById('outputHtml').textContent;
+				const textarea = document.createElement('textarea');
+				textarea.value = output;
+				document.body.appendChild(textarea);
+				textarea.select();
+				try {
+					document.execCommand('copy');
+					alert('HTML code copied to clipboard!');
+				} catch (e) {
+					alert('Error copying to clipboard.');
+				}
+				document.body.removeChild(textarea);
+			});
+			
+			// Hide generated HTML code and copy button if user clears the signatureArea
+			document.getElementById('signatureArea').addEventListener('input', updateVisibility);
+		</script>
+	</body>
+</html>

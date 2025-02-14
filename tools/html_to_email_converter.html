@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>HTML to Email Converter</title>
+		<style>
+			/* Your existing styles here */
+			body {
+				font-family: Arial, sans-serif;
+				background-color: #f2f2f2;
+				margin: 0;
+				padding: 20px;
+			}
+			/* ... rest of your styles ... */
+			.container {
+				max-width: 860px;
+				margin: 30px auto;
+				background-color: #fff;
+				padding: 30px;
+				box-sizing: border-box;
+				border-radius: 8px;
+			}
+			h1 {
+				text-align: center;
+				color: #333;
+				margin-bottom: 40px;
+			}
+			h3 {
+				color: #555;
+				margin-top: 30px;
+			}
+			textarea {
+				width: 100%;
+				min-height: 200px;
+				margin-bottom: 20px;
+				font-family: monospace;
+				padding: 15px;
+				border: 1px solid #ddd;
+				border-radius: 5px;
+				resize: vertical;
+				font-size: 14px;
+				background-color: #fafafa;
+				color: #333;
+				box-sizing: border-box;
+			}
+			.buttons {
+				text-align: center;
+				margin-bottom: 20px;
+			}
+			.buttons button {
+				padding: 12px 25px;
+				margin: 0 10px;
+				font-size: 16px;
+				border: none;
+				border-radius: 5px;
+				cursor: pointer;
+				color: #fff;
+				transition: background-color 0.3s ease;
+			}
+			.buttons button#copyButton {
+				background-color: #007bff;
+			}
+			.buttons button#copyButton:hover {
+				background-color: #0069d9;
+			}
+			#outputArea {
+				border: 1px solid #ddd;
+				padding: 20px;
+				min-height: 200px;
+				background-color: #fff;
+				overflow: auto;
+				border-radius: 5px;
+				font-size: 14px;
+				color: #333;
+				word-break: break-all;
+				box-sizing: border-box;
+			}
+			@media (max-width: 768px) {
+				.container {
+					padding: 20px;
+				}
+				h1 {
+					font-size: 24px;
+				}
+				.buttons button {
+					width: 100%;
+					margin-bottom: 10px;
+				}
+				.buttons button:last-child {
+					margin-bottom: 0;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div class="container">
+			<h1>HTML to Email Converter</h1>
+			
+			<h3>Input HTML/CSS Code:</h3>
+			<textarea id="inputCode" placeholder="Paste your HTML/CSS code here..."></textarea>
+			
+			<div class="buttons">
+				<button id="copyButton">Copy Output</button>
+			</div>
+			
+			<h3>Rendered Output:</h3>
+			<div id="outputArea" contenteditable="true"></div>
+		</div>
+		
+		<script>
+			
+			function convertToEmail() {
+				var inputCode = document.getElementById('inputCode').value;
+				
+				// Convert HTML/CSS to inline styles for email
+				var convertedCode = inlineStyles(inputCode);
+				document.getElementById('outputArea').innerHTML = convertedCode;
+			}
+			
+			// Auto convert when input changes
+			document.getElementById('inputCode').addEventListener('input', function() {
+				convertToEmail();
+			});
+			
+			document.getElementById('copyButton').addEventListener('click', function() {
+				var outputArea = document.getElementById('outputArea');
+				var htmlContent = outputArea.innerHTML;
+				
+				// Copy to clipboard as HTML
+				if (navigator.clipboard && window.ClipboardItem) {
+					var type = 'text/html';
+					var blob = new Blob([htmlContent], { type });
+					var data = [new ClipboardItem({ [type]: blob })];
+					navigator.clipboard.write(data).then(function() {
+						alert('Output copied to clipboard!');
+					}, function(err) {
+						alert('Failed to copy output.');
+					});
+				} else {
+					// Fallback method
+					var range = document.createRange();
+					range.selectNodeContents(outputArea);
+					var selection = window.getSelection();
+					selection.removeAllRanges();
+					selection.addRange(range);
+					
+					try {
+						document.execCommand('copy');
+						alert('Output copied to clipboard!');
+					} catch (err) {
+						alert('Failed to copy output.');
+					}
+					
+					selection.removeAllRanges();
+				}
+			});
+			
+			function inlineStyles(html) {
+				// Preserve conditional comments
+				var conditionalComments = [];
+				html = html.replace(/<!--\[if[\s\S]*?<!\[endif\]-->/gi, function(match) {
+					conditionalComments.push(match);
+					return '###COND_COMMENT_' + (conditionalComments.length - 1) + '###';
+				});
+				
+				// Extract styles
+				var styleRegex = /<style[^>]*>([\s\S]*?)<\/style>/gi;
+				var css = '';
+				var match;
+				while ((match = styleRegex.exec(html)) !== null) {
+					css += match[1];
+				}
+				
+				// Remove style tags
+				html = html.replace(styleRegex, '');
+				
+				// Parse CSS
+				var rules = parseCSS(css);
+				
+				// Apply styles inline
+				var finalHtml = applyStylesInline(html, rules);
+				
+				// Restore conditional comments
+				finalHtml = finalHtml.replace(/###COND_COMMENT_(\d+)###/g, function(match, p1) {
+					return conditionalComments[parseInt(p1)];
+				});
+				
+				return finalHtml;
+			}
+			
+			function parseCSS(css) {
+				var rules = {};
+				var regex = /([^{}]+)\{([^}]+)\}/g;
+				var match;
+				
+				while ((match = regex.exec(css)) !== null) {
+					var selectors = match[1].split(',');
+					var declarations = match[2].trim();
+					
+					selectors.forEach(function(selector) {
+						selector = selector.trim();
+						
+						if (!rules[selector]) {
+							rules[selector] = '';
+						}
+						rules[selector] += declarations + ' ';
+					});
+				}
+				
+				return rules;
+			}
+			
+			function applyStylesInline(html, rules) {
+				// Sort selectors by specificity (length)
+				var selectors = Object.keys(rules).sort(function(a, b) {
+					return b.length - a.length;
+				});
+				
+				selectors.forEach(function(selector) {
+					var style = rules[selector];
+					
+					// Escape selector for use in regex
+					var escapedSelector = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+					
+					// Simple selectors: element, .class, #id
+					if (/^[a-zA-Z0-9]+$/.test(selector)) {
+						// Element selector
+						var regex = new RegExp('(<' + escapedSelector + '\\b[^>]*)(style="[^"]*"|)([^>]*>)', 'gi');
+					} else if (/^\.[a-zA-Z0-9_-]+$/.test(selector)) {
+						// Class selector
+						var className = selector.slice(1);
+						var regex = new RegExp('(<[^>]*class="[^"]*\\b' + className + '\\b[^"]*"[^>]*)(style="[^"]*"|)([^>]*>)', 'gi');
+					} else if (/^#[a-zA-Z0-9_-]+$/.test(selector)) {
+						// ID selector
+						var idName = selector.slice(1);
+						var regex = new RegExp('(<[^>]*id="' + idName + '"[^>]*)(style="[^"]*"|)([^>]*>)', 'gi');
+					} else {
+						// Complex selectors are not handled
+						return;
+					}
+					
+					html = html.replace(regex, function(match, p1, p2, p3) {
+						var existingStyle = '';
+						if (p2 && p2.trim() !== '') {
+							existingStyle = p2.replace(/style="/i, '').slice(0, -1);
+						}
+						var newStyle = existingStyle + ' ' + style;
+						return p1 + 'style="' + newStyle.trim() + '"' + p3;
+					});
+				});
+				
+				return html;
+			}
+		</script>
+		
+	</body>
+</html>
