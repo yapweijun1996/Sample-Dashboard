@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Email Footer Editor</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				padding: 20px;
+				background-color: #f8f8f8;
+				color: #333;
+				min-width:540px;
+			}
+			#editor {
+				max-width: 700px;
+				margin-bottom: 20px;
+				background-color: #fff;
+				padding: 20px;
+				border-radius: 8px;
+			}
+			#editor h2 {
+				border-bottom: 1px solid #ccc;
+				padding-bottom: 5px;
+				margin-top: 30px;
+				margin-bottom: 15px;
+				font-size: 20px;
+				color: #555;
+			}
+			.form-group {
+				display: flex;
+				flex-direction: column;
+				margin-bottom: 15px;
+			}
+			.form-group label {
+				font-weight: bold;
+				margin-bottom: 5px;
+			}
+			.form-group input[type="text"],
+			.form-group input[type="url"],
+			.form-group input[type="email"],
+			.form-group input[type="color"],
+			.form-group textarea {
+				padding: 8px;
+				font-size: 14px;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+			}
+			.form-group textarea {
+				resize: vertical;
+				min-height: 60px;
+			}
+			.color-picker {
+				flex-direction: row;
+				align-items: center;
+			}
+			.color-picker label {
+				margin-right: 10px;
+			}
+			button {
+				margin-top: 20px;
+				padding: 12px 20px;
+				font-size: 16px;
+				background-color: #0066cc;
+				color: #fff;
+				border: none;
+				border-radius: 6px;
+				cursor: pointer;
+			}
+			button:hover {
+				background-color: #005bb5;
+			}
+			#preview {
+				
+			}
+			@media (min-width: 600px) {
+				.form-group {
+					flex-direction: row;
+					align-items: center;
+				}
+				.form-group label {
+					width: 200px;
+					margin-bottom: 0;
+				}
+				.form-group input[type="text"],
+				.form-group input[type="url"],
+				.form-group input[type="email"],
+				.form-group input[type="color"],
+				.form-group textarea {
+					flex: 1;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Email Footer Editor</h1>
+		
+		<form id="editor">
+			<h2>Personal Information</h2>
+			<div class="form-group">
+				<label for="name">Name:</label>
+				<input type="text" id="name" value="David Lim" placeholder="Your Name">
+			</div>
+			<div class="form-group">
+				<label for="title">Title:</label>
+				<input type="text" id="title" value="Software Engineer" placeholder="Your Title">
+			</div>
+			
+			<h2>Company Information</h2>
+			<div class="form-group">
+				<label for="company">Company:</label>
+				<input type="text" id="company" value="Google Pte Ltd" placeholder="Your Company">
+			</div>
+			<div class="form-group">
+				<label for="website">Website:</label>
+				<input type="url" id="website" value="google.com" placeholder="Your Website URL">
+			</div>
+			<div class="form-group">
+				<label for="address">Address:</label>
+				<textarea id="address" placeholder="Address">70 Pasir Panjang Rd, #03-71 Mapletree Business City II, Singapore 117371</textarea>
+			</div>
+			
+			<h2>Contact Information</h2>
+			<div class="form-group">
+				<label for="phone">Phone:</label>
+				<input type="text" id="phone" value="+65 8678 4534" placeholder="Your Phone Number">
+			</div>
+			<div class="form-group">
+				<label for="email">Email:</label>
+				<input type="email" id="email" value="google@gmail.com" placeholder="Your Email Address">
+			</div>
+			
+			<h2>Social Media</h2>
+			<div class="form-group">
+				<label for="linkedinUrl">LinkedIn URL:</label>
+				<input type="url" id="linkedinUrl" value="https://www.linkedin.com/company/googlesg/" placeholder="Your LinkedIn Profile URL">
+			</div>
+			<div class="form-group">
+				<label for="facebookUrl">Facebook URL:</label>
+				<input type="url" id="facebookUrl" value="https://www.facebook.com/google/" placeholder="Your Facebook Profile URL">
+			</div>
+			
+			<h2>Images and Links</h2>
+			<div class="form-group">
+				<label for="profilePicUrl">Profile Picture URL:</label>
+				<input type="url" id="profilePicUrl" placeholder="URL to your profile picture" value="https://i.pinimg.com/736x/e8/e6/41/e8e64141f4c0ae39c32f9701ccea9a2e.jpg">
+			</div>
+			<div class="form-group">
+				<label for="pictureLinkUrl">Picture Link URL:</label>
+				<input type="url" id="pictureLinkUrl" value="https://www.google.com/" placeholder="URL when picture is clicked (optional)">
+			</div>
+			
+			<h2>Banner Settings</h2>
+			<div class="form-group">
+				<label for="bannerText">Banner Text (Left Side):</label>
+				<input type="text" id="bannerText" placeholder="Banner Text" value="Brand Strategy . Graphic Design . UX/UI . Advertising . Content Creation">
+			</div>
+			<div class="form-group">
+				<label for="companyCode">Company Logo (Right Side):</label>
+				<input type="url" id="companyLogoUrl" value="https://cdn-icons-png.flaticon.com/128/2702/2702602.png" placeholder="URL when picture is clicked (optional)">
+			</div>
+			
+			<h2>Design Settings</h2>
+			<div class="form-group color-picker">
+				<label for="color">Text Color:</label>
+				<input type="color" id="color" value="#000000" style="height:40px">
+			</div>
+			<div class="form-group color-picker">
+				<label for="bgcolor">Background Color:</label>
+				<input type="color" id="bgcolor" value="#ffffff" style="height:40px">
+			</div>
+			<div class="form-group color-picker">
+				<label for="bannerColor">Banner Color:</label>
+				<input type="color" id="bannerColor" value="#2874a6" style="height:40px">
+			</div>
+			
+			<button type="button" onclick="generateFooter()">Generate Email Footer</button>
+		</form>
+		
+		<h2>Preview:</h2>
+		<div id="preview"></div>
+		
+		<button onclick="copyFooter()">Copy Preview to Clipboard</button>
+		
+		<script>
+			function generateFooter() {
+				var min_width_01 = "400px";
+				var min_width_02 = "360px";
+				const name = document.getElementById('name').value || '';
+				const title = document.getElementById('title').value || '';
+				const company = document.getElementById('company').value || '';
+				const phone = document.getElementById('phone').value || '';
+				var email = document.getElementById('email').value || '';
+				email = email.replace(/\@/g, '&#173;@');
+				email = email.replace(/\./g, '&#173;.');
+				
+				var website = document.getElementById('website').value || '';
+				website = website.replace(/\./g, '&#173;.');
+				
+				var address = document.getElementById('address').value || '';
+				address = address.replace(/\n/g, '<br>');
+				address = address.replace(/\,/g, '&#173;,');
+				
+				const profilePicUrl = document.getElementById('profilePicUrl').value || 'https://i.pinimg.com/736x/cd/4b/d9/cd4bd9b0ea2807611ba3a67c331bff0b.jpg';
+				const pictureLinkUrl = document.getElementById('pictureLinkUrl').value || '';
+				const linkedinUrl = document.getElementById('linkedinUrl').value || '';
+				const facebookUrl = document.getElementById('facebookUrl').value || '';
+				const bannerText = document.getElementById('bannerText').value || 'Brand Strategy . Graphic Design . UX/UI . Advertising . Content Creation';
+				const companyLogoUrl = document.getElementById('companyLogoUrl').value || 'https://cdn-icons-png.flaticon.com/128/2702/2702602.png';
+				const color = document.getElementById('color').value || '#000000';
+				const bgcolor = document.getElementById('bgcolor').value || '#ffffff';
+				const bannerColor = document.getElementById('bannerColor').value || '#2874a6';
+				
+				let profilePicHTML = '';
+				if (profilePicUrl) {
+					if (pictureLinkUrl) {
+						profilePicHTML = `<a href="${pictureLinkUrl}" target="_blank"><img src="${profilePicUrl}" alt="Profile Picture" width="50" height="50" border="0" style="display:block;border-radius: 50%;"></a>`;
+					} else {
+						profilePicHTML = `<img src="${profilePicUrl}" alt="Profile Picture" width="50" height="50" border="0" style="display:block;border-radius: 50%;">`;
+					}
+				}
+				
+				let socialIconsHTML = '';
+				if (linkedinUrl || facebookUrl) {
+					socialIconsHTML = `
+					<!-- Spacer -->
+					<table border="0" cellpadding="0" cellspacing="0">
+						<tr>
+							<td height="20" style="font-size:5px; line-height:5px;">&nbsp;</td>
+						</tr>
+					</table>
+					<!-- Social Icons -->
+					<table border="0" cellpadding="0" cellspacing="0">
+						<tr>
+							${linkedinUrl ? `<td style="padding-right:5px;"><a target="_blank" href="${linkedinUrl}"><img src="https://cdn-icons-png.flaticon.com/128/3536/3536505.png" alt="LinkedIn" width="20" height="20" border="0" style="display:block;"></a></td>` : ''}
+							${facebookUrl ? `<td><a target="_blank" href="${facebookUrl}"><img src="https://cdn-icons-png.flaticon.com/128/1384/1384053.png" alt="Facebook" width="20" height="20" border="0" style="display:block;"></a></td>` : ''}
+						</tr>
+					</table>
+					`;
+				}
+				
+				const leftColumnHTML = `
+				<td valign="top" align="center" width="50" style="padding-right:20px;">
+					${profilePicHTML}
+					${socialIconsHTML}
+				</td>
+				`;
+				
+				const footerContentHTML = `
+				<table width="100%" border="0" cellpadding="0" cellspacing="0" style="min-width:${min_width_02}; background-color:${bgcolor}; font-family: Arial, sans-serif; border-collapse: collapse;table-layout:fixed;">
+					<tr>
+						${leftColumnHTML}
+						<td style="line-height:18px;" valign="top">
+							<table width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed;" border="0">
+								<tbody><tr>
+									<td width="18"   style="box-sizing:border-box;"></td>
+									<td width="75"   style="box-sizing:border-box;"></td>
+									<td width="8"    style="box-sizing:border-box;"></td>
+									<td width="18"   style="box-sizing:border-box;"></td>
+									<td width="auto" style="box-sizing:border-box;"></td>
+								</tr>
+								<tr>
+									<td style="box-sizing:border-box;" colspan="5">
+										<div>
+											<font style="color:${bannerColor};font-weight:600;font-size:18px;">
+												${name}
+											</font>
+										</div>
+									</td>
+								</tr>
+								<tr style="height:5px;"></tr>
+								<tr>
+									<td style="box-sizing:border-box;color:${color};font-size:12px;" colspan="5">
+										${title} at <font style="font-weight:600;color:${bannerColor};">${company}</font>
+									</td>
+								</tr>
+								<tr style="height:8px;"></tr>
+								<tr style="height:1px;">
+									<td style="box-sizing:border-box;border-top:1px solid #999;" colspan="5"></td>
+								</tr>
+								<tr style="height:8px;"></tr>
+								<tr>
+									<td style="box-sizing:border-box;" valign="top">
+										<p style="margin:0px;vertical-align: top;font-weight:900;color:${bannerColor};font-size:11px;">P</p>
+									</td>
+									<td style="box-sizing:border-box;" valign="top">
+										<p style="margin:0px;vertical-align: top;font-weight:600;color:black;font-size:9px;text-decoration:none;color:${color};">
+											${phone}
+										</p>
+									</td>
+									<td style="box-sizing:border-box;" valign="top"></td>
+									<td style="box-sizing:border-box;" valign="top">
+										<p style="margin:0px;vertical-align: top;font-weight:900;color:${bannerColor};font-size:11px;">E</p>
+									</td>
+									<td style="box-sizing:border-box;" valign="top">
+										<p style="margin:0px;vertical-align: top;font-weight:600;color:black;font-size:9px;text-decoration:none;color:${color};">
+											${email}
+										</p>
+									</td>
+								</tr>
+								<tr style="height:8px;"></tr>
+								<tr>
+									<td style="box-sizing:border-box;" valign="top">
+										<p style="margin:0px;vertical-align: top;font-weight:900;color:${bannerColor};font-size:11px;">W</p>
+									</td>
+									<td style="box-sizing:border-box;" valign="top">
+										<p style="margin:0px;vertical-align: top;font-weight:600;color:black;font-size:9px;text-decoration:none;color:${color};">
+											${website}
+										</p>
+									</td>
+									<td style="box-sizing:border-box;" valign="top"></td>
+									<td style="box-sizing:border-box;" valign="top">
+										<p style="margin:0px;vertical-align: top;font-weight:900;color:${bannerColor};font-size:11px;">L</p>
+									</td>
+									<td style="box-sizing:border-box;line-height:14px;" valign="top">
+										<p style="margin:0px;vertical-align: top;font-weight:600;color:black;font-size:9px;text-decoration:none;color:${color};">
+											${address}
+										</p>
+									</td>
+								</tr>
+								<tr style="height:8px;"></tr>
+								<tr style="height:1px;">
+									<td style="box-sizing:border-box;border-top:1px solid #999;" colspan="5"></td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</table>
+			`;
+			
+			const bannerHTML = `
+			<!-- Spacer -->
+			<table style="min-width:${min_width_02};" border="0" cellpadding="0" cellspacing="0">
+				<tr>
+					<td height="10" style="font-size:10px; line-height:10px;">&nbsp;</td>
+				</tr>
+			</table>
+			<!-- Banner -->
+			<table border="0" cellpadding="0" cellspacing="0" style="min-width:${min_width_02};width:100%; font-family: Arial, sans-serif; border-collapse: collapse;">
+				<tr>
+					<td align="center" bgcolor="${bannerColor}" style="background-color:${bannerColor}; padding:0px; font-size:8px; font-weight:bold; font-family:Arial,sans-serif;color:#ffffff;">
+						${bannerText}
+					</td>
+					<td valign="middle" align="center" bgcolor="#eeeeee" style="background-color:#eeeeee; padding:2px 2px;width:50px;">
+						<span style="padding: 0px 0px;">
+							${companyLogoUrl ? `<img src="${companyLogoUrl}" alt="LinkedIn" width="auto" height="15" border="0" style="display:block;padding: 5px 0px;">` : '<img target="_blank" href="${companyLogoUrl}"/><img src="https://cdn-icons-png.flaticon.com/128/2702/2702602.png" alt="LinkedIn" width="auto" height="15" border="0" style="display:block;padding: 5px 0px;">'}
+						</span>
+					</td>
+				</tr>
+			</table>
+			`;
+			
+			const footerHTML = `
+			
+			<table style="min-width:${min_width_01};width:${min_width_01};border: 2px solid #eee; padding:0px; border-radius:15px;background-color: ${bgcolor};">
+				<tr>
+					<td style="padding:15px;">
+						${footerContentHTML}
+						${bannerHTML}
+					</td>
+				</tr>
+			</table>
+			`;
+			
+			document.getElementById('preview').innerHTML = footerHTML;
+		}
+		
+		function copyFooter() {
+			const preview = document.getElementById('preview');
+			
+			const tempDiv = document.createElement('div');
+			tempDiv.contentEditable = true;
+			tempDiv.style.position = 'absolute';
+			tempDiv.style.left = '-9999px';
+			tempDiv.innerHTML = preview.innerHTML;
+			document.body.appendChild(tempDiv);
+			
+			const range = document.createRange();
+			range.selectNodeContents(tempDiv);
+			const selection = window.getSelection();
+			selection.removeAllRanges();
+			selection.addRange(range);
+			
+			try {
+				document.execCommand('copy');
+				alert('Preview copied to clipboard!');
+			} catch (err) {
+				alert('Failed to copy: ' + err);
+			}
+			
+			selection.removeAllRanges();
+			document.body.removeChild(tempDiv);
+		}
+		
+		window.onload = function(){
+			generateFooter();
+		}
+		
+		
+		document.querySelectorAll('input, textarea').forEach(element => {
+			element.addEventListener('input', generateFooter);
+		});
+		
+		
+		document.querySelectorAll('input, textarea').forEach(element => {
+			element.addEventListener('click', () => element.select());
+		});
+	</script>
+</body>
+</html>
+
