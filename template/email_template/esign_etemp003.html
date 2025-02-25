@@ -253,14 +253,6 @@
 						${leftColumnHTML}
 						<td style="line-height:18px;" valign="top">
 							<table width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed;" border="0">
-								<tbody>
-								<tr>
-									<td width="18"   style="box-sizing:border-box;"></td>
-									<td width="75"   style="box-sizing:border-box;"></td>
-									<td width="8"    style="box-sizing:border-box;"></td>
-									<td width="18"   style="box-sizing:border-box;"></td>
-									<td width="auto" style="box-sizing:border-box;"></td>
-								</tr>
 								<tr>
 									<td style="box-sizing:border-box;" colspan="5">
 										<div>
@@ -270,37 +262,35 @@
 										</div>
 									</td>
 								</tr>
-								<tr style="height:5px;"></tr>
 								<tr>
 									<td style="box-sizing:border-box;color:${color};font-size:12px;" colspan="5">
 										${title} at <font style="font-weight:600;color:${bannerColor};">${company}</font>
 									</td>
 								</tr>
-								<tr style="height:8px;"></tr>
 								<tr style="height:1px;">
 									<td style="box-sizing:border-box;border-top:1px solid #999;" colspan="5"></td>
 								</tr>
-								<tr style="height:8px;"></tr>
+							</table>
+							<table width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed;" border="0">
 								<tr>
-									<td style="box-sizing:border-box;" valign="top">
+									<td width="18" style="box-sizing:border-box;" valign="top">
 										<p style="margin:0px;vertical-align: top;font-weight:900;color:${bannerColor};font-size:11px;">P</p>
 									</td>
-									<td style="box-sizing:border-box;" valign="top">
+									<td width="75" style="box-sizing:border-box;" valign="top">
 										<p style="margin:0px;vertical-align: top;font-weight:600;color:black;font-size:9px;text-decoration:none;color:${color};">
 											${phone}
 										</p>
 									</td>
-									<td style="box-sizing:border-box;" valign="top"></td>
-									<td style="box-sizing:border-box;" valign="top">
+									<td width="8" style="box-sizing:border-box;" valign="top"></td>
+									<td width="18" style="box-sizing:border-box;" valign="top">
 										<p style="margin:0px;vertical-align: top;font-weight:900;color:${bannerColor};font-size:11px;">E</p>
 									</td>
-									<td style="box-sizing:border-box;" valign="top">
+									<td width="auto" style="box-sizing:border-box;" valign="top">
 										<p style="margin:0px;vertical-align: top;font-weight:600;color:black;font-size:9px;text-decoration:none;color:${color};">
 											${email}
 										</p>
 									</td>
 								</tr>
-								<tr style="height:8px;"></tr>
 								<tr>
 									<td style="box-sizing:border-box;" valign="top">
 										<p style="margin:0px;vertical-align: top;font-weight:900;color:${bannerColor};font-size:11px;">W</p>
@@ -320,95 +310,93 @@
 										</p>
 									</td>
 								</tr>
-								<tr style="height:8px;"></tr>
 								<tr style="height:1px;">
 									<td style="box-sizing:border-box;border-top:1px solid #999;" colspan="5"></td>
 								</tr>
-							</tbody>
-						</table>
-					</td>
-				</tr>
-			</table>
-			`;
-			
-			const bannerHTML = `
-			<!-- Spacer -->
-			<table style="min-width:${min_width_02}px;" border="0" cellpadding="0" cellspacing="0">
-				<tr>
-					<td height="10" style="font-size:10px; line-height:10px;">&nbsp;</td>
-				</tr>
-			</table>
-			<!-- Banner -->
-			<table border="0" cellpadding="0" cellspacing="0" style="min-width:${min_width_02}px;width:100%; font-family: Arial, sans-serif; border-collapse: collapse;">
-				<tr>
-					<td align="center" bgcolor="${bannerColor}" style="background-color:${bannerColor}; padding:0px; font-size:8px; font-weight:bold; font-family:Arial,sans-serif;color:#ffffff;">
-						${bannerText}
-					</td>
-					<td valign="middle" align="center" bgcolor="#eeeeee" style="background-color:#eeeeee; padding:2px 2px;width:50px;">
-						<span style="padding: 0px 0px;">
-							${companyLogoUrl ? `<img src="${companyLogoUrl}" alt="LinkedIn" width="auto" height="15" border="0" style="display:block;padding: 5px 0px;max-height:15px;max-width:100%;">` : '<img target="_blank" href="${companyLogoUrl}"/><img src="https://cdn-icons-png.flaticon.com/128/2702/2702602.png" alt="LinkedIn" width="auto" height="15" border="0" style="display:block;padding: 5px 0px;max-height:15px;max-width:100%;">'}
-						</span>
-					</td>
-				</tr>
-			</table>
-			`;
-			
-			const footerHTML = `
-			
-			<table width="${min_width_01}" style="min-width:${min_width_01}px;border: 2px solid #eee; padding:0px; border-radius:15px;background-color: ${bgcolor};">
-				<tr>
-					<td style="padding:15px;">
-						${footerContentHTML}
-						${bannerHTML}
-					</td>
-				</tr>
-			</table>
-			`;
-			
-			document.getElementById('preview').innerHTML = footerHTML;
-		}
-		
-		function copyFooter() {
-			const preview = document.getElementById('preview');
-			
-			const tempDiv = document.createElement('div');
-			tempDiv.contentEditable = true;
-			tempDiv.style.position = 'absolute';
-			tempDiv.style.left = '-9999px';
-			tempDiv.innerHTML = preview.innerHTML;
-			document.body.appendChild(tempDiv);
-			
-			const range = document.createRange();
-			range.selectNodeContents(tempDiv);
-			const selection = window.getSelection();
-			selection.removeAllRanges();
-			selection.addRange(range);
-			
-			try {
-				document.execCommand('copy');
-				alert('Preview copied to clipboard!');
-			} catch (err) {
-				alert('Failed to copy: ' + err);
+							</table>
+						</td>
+					</tr>
+				</table>
+				`;
+				
+				const bannerHTML = `
+				<!-- Spacer -->
+				<table style="min-width:${min_width_02}px;" border="0" cellpadding="0" cellspacing="0">
+					<tr>
+						<td height="10" style="font-size:10px; line-height:10px;">&nbsp;</td>
+					</tr>
+				</table>
+				<!-- Banner -->
+				<table border="0" cellpadding="0" cellspacing="0" style="min-width:${min_width_02}px;width:100%; font-family: Arial, sans-serif; border-collapse: collapse;">
+					<tr>
+						<td align="center" bgcolor="${bannerColor}" style="background-color:${bannerColor}; padding:0px; font-size:8px; font-weight:bold; font-family:Arial,sans-serif;color:#ffffff;">
+							${bannerText}
+						</td>
+						<td valign="middle" align="center" bgcolor="#eeeeee" style="background-color:#eeeeee; padding:2px 2px;width:50px;">
+							<span style="padding: 0px 0px;">
+								${companyLogoUrl ? `<img src="${companyLogoUrl}" alt="LinkedIn" width="auto" height="15" border="0" style="display:block;padding: 5px 0px;max-height:15px;max-width:100%;">` : '<img target="_blank" href="${companyLogoUrl}"/><img src="https://cdn-icons-png.flaticon.com/128/2702/2702602.png" alt="LinkedIn" width="auto" height="15" border="0" style="display:block;padding: 5px 0px;max-height:15px;max-width:100%;">'}
+							</span>
+						</td>
+					</tr>
+				</table>
+				`;
+				
+				const footerHTML = `
+				
+				<table width="${min_width_01}" style="min-width:${min_width_01}px;border: 2px solid #eee; padding:0px; border-radius:15px;background-color: ${bgcolor};">
+					<tr>
+						<td style="padding:15px;">
+							${footerContentHTML}
+							${bannerHTML}
+						</td>
+					</tr>
+				</table>
+				`;
+				
+				document.getElementById('preview').innerHTML = footerHTML;
 			}
 			
-			selection.removeAllRanges();
-			document.body.removeChild(tempDiv);
-		}
-		
-		window.onload = function(){
-			generateFooter();
-		}
-		
-		
-		document.querySelectorAll('input, textarea').forEach(element => {
-			element.addEventListener('input', generateFooter);
-		});
-		
-		
-		document.querySelectorAll('input, textarea').forEach(element => {
-			element.addEventListener('click', () => element.select());
-		});
-	</script>
-</body>
+			function copyFooter() {
+				const preview = document.getElementById('preview');
+				
+				const tempDiv = document.createElement('div');
+				tempDiv.contentEditable = true;
+				tempDiv.style.position = 'absolute';
+				tempDiv.style.left = '-9999px';
+				tempDiv.innerHTML = preview.innerHTML;
+				document.body.appendChild(tempDiv);
+				
+				const range = document.createRange();
+				range.selectNodeContents(tempDiv);
+				const selection = window.getSelection();
+				selection.removeAllRanges();
+				selection.addRange(range);
+				
+				try {
+					document.execCommand('copy');
+					alert('Preview copied to clipboard!');
+				} catch (err) {
+					alert('Failed to copy: ' + err);
+				}
+				
+				selection.removeAllRanges();
+				document.body.removeChild(tempDiv);
+			}
+			
+			window.onload = function(){
+				generateFooter();
+			}
+			
+			
+			document.querySelectorAll('input, textarea').forEach(element => {
+				element.addEventListener('input', generateFooter);
+			});
+			
+			
+			document.querySelectorAll('input, textarea').forEach(element => {
+				element.addEventListener('click', () => element.select());
+			});
+		</script>
+	</body>
 </html>
 
